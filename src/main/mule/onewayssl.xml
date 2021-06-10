@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="116c5f90-9224-4e04-bc83-58b0cc5b3756" >
+		<http:request-connection host="localhost" port="8082" />
+	</http:request-config>
+	<flow name="onewaysslFlow" doc:id="405e9c44-a0e6-4b78-a786-bbfffeb75c4e" >
+		<http:listener doc:name="Listener" doc:id="2871d3b6-48b9-48a3-bba9-fbb38494b0ce" config-ref="HTTP_Listener_config" path="/ssl" allowedMethods="GET"/>
+		<logger level="INFO" doc:name="Logger" doc:id="5abe0d96-53bc-46bf-a27d-7aabff3b44dd" message="process send "/>
+	</flow>
+</mule>

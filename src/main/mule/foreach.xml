@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="957b1ace-0ccd-48ad-8bdf-8a2d0dc9d529" >
+		<file:connection workingDir="C:\Users\cmohan\Desktop\New folder" />
+	</file:config>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4a274a3c-4515-418e-bd5f-68ba42018957" >
+		<http:listener-connection host="0.0.0.0" port="8081">
+		</http:listener-connection>
+	</http:listener-config>
+	<ftp:config name="FTP_Config1" doc:name="FTP Config" doc:id="d2054bd1-0aef-4ce1-9a18-c9679e89708a" >
+		<ftp:connection host="localhost" username="admin" password="admin" port="22" workingDir="/workdir"/>
+	</ftp:config>
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="6392b1b5-10b2-4d74-ad33-f635ff727e1a" >
+		<http:request-connection host="localhost" port="8082" />
+	</http:request-config>
+	<flow name="foreachFlow" doc:id="e533c6f1-03d3-4f98-8f40-0744845ba8a0" >
+		<ftp:listener doc:name="On New or Updated File" doc:id="47bd1963-c132-4dbc-8978-89992a9b7c73" config-ref="FTP_Config1">
+			<scheduling-strategy >
+				<fixed-frequency />
+			</scheduling-strategy>
+		</ftp:listener>
+		<set-payload value='#[["1","2","2","3","4","5"]]' doc:name="Set Payload" doc:id="dda0822f-d871-4882-8996-6ab05d223f46" />
+		<file:write doc:name="Write" doc:id="cc5a8df4-3c5e-465a-97fe-1af5536345a1" config-ref="File_Config" path="C:\Users\cmohan\Desktop\New folder\ouputjsondataa.txt" mode="APPEND" />
+		<http:request method="GET" doc:name="Request" doc:id="4da49cbf-e7db-4f96-b9e8-95746f7a098d" config-ref="HTTP_Request_configuration1" path="/ssl" />
+	</flow>
+</mule>
